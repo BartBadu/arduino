@@ -1,0 +1,26 @@
+void analogWriteLed(int pin, int val){
+  int brightness = pow(val/255., 2.5) * 255;
+  analogWrite(pin, brightness);
+}
+
+
+int led = 10;         // the PWM pin the LED is attached to
+
+void setup() {
+
+  pinMode(10, OUTPUT);
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+
+  for(int i=0; i<255; i++){
+    analogWriteLed(led, i);
+    delay(10);
+  }
+  for(int i=255; i>=0; i--){
+    analogWriteLed(led, i);
+    delay(10);
+  }
+
+}
