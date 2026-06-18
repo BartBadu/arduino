@@ -1,0 +1,64 @@
+
+
+// These constants won't change. They're used to give names to the pins used:
+const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
+const int analogOutPin = 9;  // Analog output pin that the LED is attached to
+
+int sensorValue = 0;  // value read from the pot
+int outputValue = 0;  // value output to the PWM (analog out)
+
+int green = 3;
+int yellow = 5;
+int red = 10;
+int greenb;
+int yellowB;
+int redB;
+void setup() {
+  // initialize serial communications at 9600 bps:
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the analog in value:
+  sensorValue = analogRead(analogInPin);
+  // map it to the range of the analog out:
+  outputValue = map(sensorValue, 0, 1023, 0, 255);
+  // change the analog out value:
+  analogWrite(analogOutPin, outputValue);
+
+  double voltage = sensorValue/1023.0*5;
+  double temperature = 100 * voltage;
+  Serial.print("\t temperature = ");
+  Serial.print(temperature);
+  Serial.println(" C");
+  if(temperature > 20 && temperature < 40)
+  {
+    greenb = (30 - abs((30-temperature)))/30 * 255;
+  }
+  else
+  {
+    greenb= 0;
+  }  
+  if(temperature > 30 && temperature < 50)
+  {
+    yellowB = (40 - abs((40-temperature)))/40 * 255;
+  }
+  else
+  {
+    yellowB= 0;
+  }
+  if(temperature > 40 && temperature < 60)
+  {
+    redB = (50 - abs((40-temperature)))/50 * 255;
+  }
+  else
+  {
+    redB= 0;
+  }
+
+
+  analogWrite(green, greenb);
+  analogWrite(yellow, yellowB);
+  analogWrite(red, redB);
+  delay(10);
+}
